@@ -3,6 +3,7 @@ from player import *
 from constants import *
 from asteroid import *
 from asteroidfield import *
+import sys
 
 
 def main():
@@ -32,11 +33,22 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            
         updatable.update(dt)
+
+        for asteroid in asteroids:
+            if asteroid.collides_with(player):
+                print("Game over!")
+                sys.exit()
+
         screen.fill("black")
+
         for obj in drawable:
             obj.draw(screen)
+
         pygame.display.flip()
+
+        # limit the framerate to 60 FPS
         dt = clock.tick(60) / 1000
     
 
